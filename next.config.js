@@ -12,8 +12,10 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: 'preodemo.gumlet.io',
-        protocol: 'https',
+        protocol: process.env.S3_PROTOCOL,
+        hostname: process.env.S3_HOSTNAME,
+        port: process.env.S3_PORT,
+        pathname: process.env.S3_PATHNAME,
       },
     ],
   },

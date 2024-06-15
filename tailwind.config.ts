@@ -19,11 +19,12 @@ const config: Config = {
         'black-100': '#121212',
       },
       height: {
-        '83': '1337px',
+        '25': '400px',
         '9.125': '146px',
       },
       minHeight: {
         '67.9': '1071px',
+        '18': '300px',
       },
       maxWidth: {
         xl: '600px',

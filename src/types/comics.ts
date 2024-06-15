@@ -10,6 +10,6 @@ export interface Comics {
     publisher: string;
     age_rating: number;
     price: number;
-    images: Image[];
+    image: Image;
     collection: Collection[];
 }

@@ -1,6 +1,5 @@
 'use server'
 import TypeFinder from '@/enums/TypeFinder';
-import Environment from '@/environment/Environment';
 import { Comics } from '@/types/comics';
 
 export interface PagesRequest {
@@ -18,7 +17,7 @@ export interface PagesComics {
 export default async function getComicsPage(
     pagesRequest: PagesRequest,
 ): Promise<PagesComics> {
-    let queryUrl = `comics/pages?take=${pagesRequest.take}&skip=${pagesRequest.skip}&typeFinder=${pagesRequest.typeFinder}`;
+    let queryUrl = `comics/pages/take/${pagesRequest.take}/skip/${pagesRequest.skip}?typeFinder=${pagesRequest.typeFinder}`;
     pagesRequest.keyword.forEach((keyword) => {
         queryUrl = queryUrl + '&keyword=' + keyword;
     });

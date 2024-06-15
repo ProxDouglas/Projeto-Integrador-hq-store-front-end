@@ -1,32 +1,50 @@
-'use server';
+'use client';
 import InputSearchBar from '@/components/Input/InputSearchBar';
 import getComicsPage, {
     PagesComics,
     PagesRequest,
 } from '@/serverActions/hqs/getComicsPage';
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import TypeFinder from '@/enums/TypeFinder';
 import Card from '@/components/Card';
+import { Comics } from '@/types/comics';
+import ComicsPanel from '@/components/ComicsPanel';
 
 interface HomeProps {
     pagesComics: PagesComics;
 }
 
-export default async function Home() {
-    let pagesComics: PagesComics = {
-        comics: [],
-        pages: 0,
-    };
-    try {
-        pagesComics = await getComicsPage({
+export default function Home() {
+    const [comics, setComics] = useState<Comics[]>([]);
+    const [pagesLimit, setPagesLimit] = useState<number>(0);
+    const [skip, setSkip] = useState<number>(0);
+
+    const handleGetComics = useCallback(() => {
+        getComicsPage({
             take: 10,
-            skip: 0,
+            skip: skip,
             typeFinder: TypeFinder.NAME,
             keyword: [],
+        }).then((pagesComics) => {
+            setComics((prevProducts) => [
+                ...prevProducts,
+                ...pagesComics.comics,
+            ]);
+            setSkip((skipValue) => skipValue + 1);
         });
-    } catch (error) {
-        console.error('Erro ao buscar os quadrinhos:', error);
-    }
+    }, [skip]);
+
+    useEffect(() => {
+        getComicsPage({
+            take: 10,
+            skip: skip,
+            typeFinder: TypeFinder.NAME,
+            keyword: [],
+        }).then((pagesComics) => {
+            setComics(pagesComics.comics);
+            setPagesLimit(pagesComics.pages);
+        });
+    }, []);
 
     return (
         <div>
@@ -40,11 +58,22 @@ export default async function Home() {
                     </div>
                 </div>
             </section>
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {pagesComics.comics.map((comics) => {
-                    return <Card key={comics.id} name={comics.name} url={comics.images.length === 0 ? "" : comics.images[0].url} price={comics.price} />;
-                })}
+            <div className="flex justify-center w-full md:h-83 md:bg-gray-50">
+                <div className="flex w-full md:h-[1071px] h-full md:px-10 md:pt-8 gap-6">
+                    <ComicsPanel comics={comics} />
+                </div>
             </div>
+            {skip < pagesLimit && (
+                <div className="w-full backdrop-blur-sm bg-white/30 flex flex-col h-28 items-center justify-center px-6 pb-6 pt-2">
+                    <button
+                        className="bg-primary max-w-[345px] w-full h-12 rounded-[40px] text-white font-medium text-lg"
+                        disabled={skip >= pagesLimit}
+                        onClick={handleGetComics}
+                    >
+                        Ver mais
+                    </button>
+                </div>
+            )}
         </div>
     );
 }
