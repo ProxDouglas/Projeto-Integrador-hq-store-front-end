@@ -1,14 +1,12 @@
 'use client';
 import InputSearchBar from '@/components/Input/InputSearchBar';
-import getComicsPage, {
-    PagesComics,
-} from '@/serverActions/hqs/getComicsPage';
+import getComicsPage from '@/serverActions/hqs/getComicsPage';
 import React, { useCallback, useEffect, useState } from 'react';
 import TypeFinder from '@/enums/TypeFinder';
 import { Comics } from '@/types/comics';
 import ComicsPanel from '@/components/ComicsPanel';
 
-export default function Home() {
+export default function ComicsFinder() {
     const [comics, setComics] = useState<Comics[]>([]);
     const [pagesLimit, setPagesLimit] = useState<number>(0);
     const [skip, setSkip] = useState<number>(0);

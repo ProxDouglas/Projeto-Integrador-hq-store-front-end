@@ -53,16 +53,10 @@ export default function ComicsCard({
                 </div>
                 <div className="container flex">
                     <button
-                        className="bg-primary flex items-center justify-between w-full font-medium gap-3 text-white p-2 border rounded shadow"
+                        className="bg-primary flex items-center justify-between w-full font-medium gap-3 text-white p-2 border rounded shadow "
                         type="button"
                     >
                         <CiShoppingCart />
-                        {/* <Image
-                            src="/images/icons/search-icon.svg"
-                            width={19.71}
-                            height={19.71}
-                            alt="search-icon"
-                        /> */}
                         <span>Adicionar ao Carrinho</span>
                     </button>
                 </div>
