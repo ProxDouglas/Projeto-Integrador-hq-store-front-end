@@ -1,8 +1,8 @@
 'use client';
 import { Comics } from '@/types/comics';
-import { classNames } from '@/util/classNames';
 import Image from 'next/image';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { CiShoppingCart } from 'react-icons/ci';
 
 interface ICardProps {
@@ -14,19 +14,26 @@ export default function ComicsCard({
     comics,
     isSelected,
 }: Readonly<ICardProps>) {
+    const router = useRouter();
+
+    function redirectVitrine(id: number){
+        router.push(`/home/${id}`);
+    }
+    
     return (
         <div className="container flex justify-center items-center">
-            <div className="card border rounded shadow p-4 bg-white">
-                <div
+            <div className="card container border rounded shadow p-4 bg-white w-[220px] h-[450px]">
+                <button
+                    onClick={() => redirectVitrine(comics.id)}
                     className="mb-4"
                     style={{
-                        width: '200px',
-                        height: '300px',
+                        width: '190px',
+                        height: '262px',
                         position: 'relative',
                     }}
                 >
                     <Image
-                        className="w-full h-full "
+                        className="w-full h-full h-[100px]"
                         style={{
                             objectFit: 'cover',
                             width: '100%',
@@ -35,12 +42,16 @@ export default function ComicsCard({
                         src={comics.image.url}
                         alt={comics.name}
                         loading="lazy"
-                        width={300}
+                        width={170}
                         height={400}
                     />
-                </div>
+                </button>
                 <div className="mb-2">
-                    <h2 className="text-lg font-bold">{comics.name}</h2>
+                    <div className="h-12">
+                        <h2 className="text-lg font-bold">
+                            {comics.name.substring(0, 30)}
+                        </h2>
+                    </div>
                     <p className="text-gray-500">
                         Ano {comics.year_publication}
                     </p>
@@ -51,13 +62,15 @@ export default function ComicsCard({
                         </p>
                     </strong>
                 </div>
-                <div className="container flex">
+                <div className="container ">
                     <button
                         className="bg-primary flex items-center justify-between w-full font-medium gap-3 text-white p-2 border rounded shadow "
                         type="button"
                     >
-                        <CiShoppingCart />
-                        <span>Adicionar ao Carrinho</span>
+                        <div className="flex justify-center items-center">
+                            <CiShoppingCart className="w-10"/>
+                            <span>Adicionar </span>
+                        </div>
                     </button>
                 </div>
             </div>

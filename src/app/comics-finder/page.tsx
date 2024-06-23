@@ -1,13 +1,21 @@
 'use client';
-import InputSearchBar from '@/components/Input/InputSearchBar';
-import getComicsPage from '@/serverActions/hqs/getComicsPage';
+import getComicsPage, { PagesComics } from '@/serverActions/hqs/getComicsPage';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useSearchParams, redirect } from 'next/navigation';
 import TypeFinder from '@/enums/TypeFinder';
 import { Comics } from '@/types/comics';
 import ComicsPanel from '@/components/ComicsPanel';
+import FilterOptions from '@/components/FilterOptions';
+import getCollectionsByComicsName from '@/serverActions/collections/getComicsPage';
+import { Collection } from '@/types/collection';
+import SearchBarBanner from '@/components/Input/SearchBarBanner';
 
-export default function ComicsFinder() {
+export default function Home() {
+    const searchParams = useSearchParams();
+    const name = searchParams.get('name');
+
     const [comics, setComics] = useState<Comics[]>([]);
+    const [collections, setCollections] = useState<Collection[]>([]);
     const [pagesLimit, setPagesLimit] = useState<number>(0);
     const [skip, setSkip] = useState<number>(0);
 
@@ -27,32 +35,59 @@ export default function ComicsFinder() {
     }, [skip]);
 
     useEffect(() => {
+        if (name) {
+            setComics((comicsList) => (comicsList = []));
+            getComicsPage({
+                take: 10,
+                skip: skip,
+                typeFinder: TypeFinder.NAME,
+                keyword: [name],
+            }).then((pagesComics) => {
+                setComics(pagesComics.comics);
+                setPagesLimit(pagesComics.pages);
+            });
+
+            getCollectionsByComicsName(name).then((collections) =>
+                setCollections(collections),
+            );
+        }
+    }, []);
+
+    function hendleSearchName(searchTerm: string) {
+        handleSearch(TypeFinder.NAME, [searchTerm]);
+        getCollectionsByComicsName(searchTerm).then((collections) =>
+            setCollections(collections),
+        );
+    }
+
+    function handleSearch(type: TypeFinder, keyword: string[]) {
         getComicsPage({
             take: 10,
-            skip: skip,
-            typeFinder: TypeFinder.NAME,
-            keyword: [],
+            skip: 0,
+            typeFinder: type,
+            keyword: keyword,
         }).then((pagesComics) => {
-            setComics(pagesComics.comics);
-            setPagesLimit(pagesComics.pages);
+            setComics((prevProducts) => pagesComics.comics);
+            setSkip((skipValue) => 1);
         });
-    }, []);
+    }
+
+    if (!name) return redirect('/home');
 
     return (
         <div>
-            <section
-                id="comics-home"
-                className="flex justify-center items-center md:px-4"
-            >
-                <div className="flex flex-col items-center justify-center md:gap-[6px] md:max-w-screen-lg w-full">
-                    <div className="w-full py-4 px-4 md:px-0">
-                        <InputSearchBar />
-                    </div>
-                </div>
-            </section>
+            <SearchBarBanner handleSearch={hendleSearchName} comicsName={name} />
             <div className="flex justify-center w-full md:h-83 md:bg-gray-50">
-                <div className="flex w-full md:h-[1071px] h-full md:px-10 md:pt-8 gap-6">
-                    <ComicsPanel comics={comics} />
+                <div className="flex justify-center w-full md:h-[1071px] h-full md:px-10 md:pt-8 gap-6">
+                    <div>
+                        <FilterOptions
+                            collections={collections}
+                            handleSearch={handleSearch}
+                        />
+                    </div>
+                    <div>
+                        <ComicsPanel comics={comics} />
+                    </div>
                 </div>
             </div>
             {skip < pagesLimit && (

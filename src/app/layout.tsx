@@ -22,7 +22,7 @@ export default async function RootLayout({
                     <div className="relative">
                         <div className="min-h-screen w-full">
                             <Header />
-                            <Banner bannerImage={BannerImage} />
+                            {/* <Banner bannerImage={BannerImage} /> */}
                             <div className="bg-white md:bg-body">
                                 {children}
                             </div>

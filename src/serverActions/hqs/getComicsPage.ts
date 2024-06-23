@@ -22,7 +22,7 @@ export default async function getComicsPage(
         queryUrl = queryUrl + '&keyword=' + keyword;
     });
 
-    const res = await fetch(process.env.API_URL + queryUrl, { cache: 'force-cache' });
+    const res = await fetch(process.env.API_URL + queryUrl);
 
     if (!res.ok) {
         console.error("Erro na resposta do servidor: ", res.status);

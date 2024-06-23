@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: { DEFAULT: '#40516D', dark: '#102030' },
+        primary: { DEFAULT: '#1a5396', dark: '#102030' },
         body: '#EEEEEE',
         'gray-50': '#F8F9FA',
         'gray-100': '#DADADA',
@@ -17,6 +17,9 @@ const config: Config = {
         'gray-300': '#5F5F5F',
         'gray-400': '#464646',
         'black-100': '#121212',
+      },
+      backgroundImage: {
+        'cloud-background': 'url(../assets/banner.jpg)'
       },
       height: {
         '25': '400px',
