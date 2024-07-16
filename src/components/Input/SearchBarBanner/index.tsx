@@ -17,7 +17,7 @@ export default function SearchBarBanner({
     function redirectSearch(searchTerm: string) {
         if (handleSearch) handleSearch(searchTerm);
         else if (typeof searchTerm === 'string' && searchTerm.trim() !== '') {
-            router.push(`/comics-finder?name=${searchTerm}`);
+            router.push(`/comics-finder/${searchTerm}`);
         }
     }
 
