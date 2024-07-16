@@ -17,7 +17,7 @@ export default function CardShowCase({ comics }: ICardShowCase) {
                 position: 'relative',
             }}
         >
-            {/* <Image
+            <Image
                 className="w-full h-full h-[100px]"
                 style={{
                     objectFit: 'cover',
@@ -30,8 +30,8 @@ export default function CardShowCase({ comics }: ICardShowCase) {
                 loading="lazy"
                 width={170}
                 height={400}
-            /> */}
-            <img
+            />
+            {/* <img
                 className="w-full h-full h-[100px]"
                 style={{
                     objectFit: 'cover',
@@ -42,7 +42,7 @@ export default function CardShowCase({ comics }: ICardShowCase) {
                 alt={comics.name}
                 width={170}
                 height={400}
-            />
+            /> */}
         </div>
     );
 }
