@@ -6,7 +6,7 @@ import Image from 'next/image';
 import ProfileUnknown from '../../../assets/Profile_Unknow.png';
 
 export default function LoginButton() {
-    const { user, error, isLoading } = useContext(UserContext);
+    const { user, isLoading } = useContext(UserContext);
 
     if (!user)
         return (
@@ -33,7 +33,6 @@ export default function LoginButton() {
                         src={user.picture}
                         alt="Profile"
                         className="rounded-full h-[40px]"
-                        decode="async"
                         data-testid="profile-picture"
                     />
                 </a>

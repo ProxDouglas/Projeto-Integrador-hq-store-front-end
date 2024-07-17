@@ -37,6 +37,7 @@ export default function Home() {
             setComics(pagesComics.comics);
             setPagesLimit(pagesComics.pages);
         });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

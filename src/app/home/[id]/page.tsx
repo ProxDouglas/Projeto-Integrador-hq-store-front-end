@@ -1,9 +1,8 @@
 // 'use client';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import SearchBarBanner from '@/components/Input/SearchBarBanner';
 import ShowCase from '@/components/ShowCase';
 import getComicsById from '@/serverActions/hqs/getComicsId';
-import { Comics } from '@/types/comics';
 import ComicsNotFound from '@/components/ShowCase/ComicsNotFound';
 
 interface IHomeId {

@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleCart } from '@/store/features/cart/cartSlice';
 import { FaShoppingCart } from 'react-icons/fa';

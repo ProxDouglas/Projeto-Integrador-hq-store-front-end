@@ -1,5 +1,5 @@
 'use client';
-import getComicsPage, { PagesComics } from '@/serverActions/hqs/getComicsPage';
+import getComicsPage from '@/serverActions/hqs/getComicsPage';
 import React, { useCallback, useEffect, useState } from 'react';
 import { redirect } from 'next/navigation';
 import TypeFinder from '@/enums/TypeFinder';
@@ -41,7 +41,7 @@ export default function Home({ params }: IComicsFinder) {
 
     useEffect(() => {
         if (name) {
-            setComics((comicsList) => (comicsList = []));
+            setComics([]);
             getComicsPage({
                 take: 10,
                 skip: skip,
@@ -56,6 +56,7 @@ export default function Home({ params }: IComicsFinder) {
                 setCollections(collections),
             );
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     function hendleSearchName(searchTerm: string) {
@@ -72,8 +73,8 @@ export default function Home({ params }: IComicsFinder) {
             typeFinder: type,
             keyword: keyword,
         }).then((pagesComics) => {
-            setComics((prevProducts) => pagesComics.comics);
-            setSkip((skipValue) => 1);
+            setComics(() => pagesComics.comics);
+            setSkip(() => 1);
         });
     }
 

@@ -7,12 +7,10 @@ import { CiShoppingCart } from 'react-icons/ci';
 
 interface ICardProps {
     comics: Comics;
-    isSelected: boolean;
 }
 
 export default function ComicsCard({
     comics,
-    isSelected,
 }: Readonly<ICardProps>) {
     const router = useRouter();
 
