@@ -5,6 +5,9 @@ import { toggleCart } from '@/store/features/cart/cartSlice';
 import { FaUser, FaShoppingCart } from 'react-icons/fa';
 import Cart from '../Cart';
 import { RootState } from '@/store/store';
+import Image from 'next/image';
+import Logo from '../../assets/Logo.png';
+
 
 export default function Header() {
     const dispatch = useDispatch();
@@ -15,8 +18,23 @@ export default function Header() {
     };
 
     return (
-        <header className="flex items-center justify-between p-4 bg-primary text-white">
-            <div className="text-xl font-bold">Graphics Hq</div>
+        <header className="flex items-center justify-between py-0 pl-6 pr-4 bg-primary text-white">
+            {/* <div className="text-xl font-bold">Graphics Hq</div> */}
+            <button className='h-[75px] w-[75px]'>
+                <Image
+                    className="w-full h-full h-[100px]"
+                    style={{
+                        objectFit: 'cover',
+                        width: '100%',
+                        height: '100%',
+                    }}
+                    src={Logo}
+                    alt={'Logo'}
+                    loading="lazy"
+                    width={170}
+                    height={400}
+                />
+            </button>
             <div className="flex items-center space-x-8">
                 <button>
                     <FaUser size={24} />

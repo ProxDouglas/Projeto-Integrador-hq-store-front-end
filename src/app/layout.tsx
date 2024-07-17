@@ -1,9 +1,8 @@
 import Header from '@/components/Header';
-import BannerImage from '@/assets/banner.jpg';
 import { Roboto } from 'next/font/google';
 import './globals.scss';
 import StoreProvider from './StoreProvider';
-import Banner from '@/components/Banner';
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 
 const roboto = Roboto({
     weight: ['300', '400', '500', '700'],
@@ -16,20 +15,22 @@ export default async function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <StoreProvider >
-            <html lang="pt-BR">
-                <body className={roboto.className}>
-                    <div className="relative">
-                        <div className="min-h-screen w-full">
-                            <Header />
-                            {/* <Banner bannerImage={BannerImage} /> */}
-                            <div className="bg-white md:bg-body">
-                                {children}
+        <UserProvider>
+            <StoreProvider>
+                <html lang="pt-BR">
+                    <body className={roboto.className}>
+                        <div className="relative">
+                            <div className="min-h-screen w-full">
+                                <Header />
+                                {/* <Banner bannerImage={BannerImage} /> */}
+                                <div className="bg-white md:bg-body">
+                                    {children}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </body>
-            </html>
-        </StoreProvider>
+                    </body>
+                </html>
+            </StoreProvider>
+        </UserProvider>
     );
 }
