@@ -17,7 +17,6 @@ export default function ComicsPanel({ comics }: IComicsPanelProps) {
                             <ComicsCard
                                 key={comics.id}
                                 comics={comics}
-                                isSelected={false}
                             />
                         );
                     })}
