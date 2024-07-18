@@ -68,18 +68,18 @@ test.describe('Menu Page', async () => {
           const modifier = page.getByTestId('2-meats-radio');
           await modifier.click();
 
-          qtd = page.getByTestId('item-quantity');
+          qtd = page.getByTestId('item-amount');
           subBtn = page.getByTestId('sub-button');
           sumBtn = page.getByTestId('sum-button');
         });
 
-        test('should add quantity', async () => {
+        test('should add amount', async () => {
           expect(await qtd.textContent()).toEqual('1');
           await sumBtn.click();
           expect(await qtd.textContent()).toEqual('2');
         });
 
-        test('should sub quantity', async () => {
+        test('should sub amount', async () => {
           expect(await qtd.textContent()).toEqual('1');
           await sumBtn.click();
           expect(await qtd.textContent()).toEqual('2');
@@ -87,7 +87,7 @@ test.describe('Menu Page', async () => {
           expect(await qtd.textContent()).toEqual('1');
         });
 
-        test('should cannot sub when quantity is one', async () => {
+        test('should cannot sub when amount is one', async () => {
           expect(await qtd.textContent()).toEqual('1');
           await subBtn.click();
           expect(await qtd.textContent()).toEqual('1');

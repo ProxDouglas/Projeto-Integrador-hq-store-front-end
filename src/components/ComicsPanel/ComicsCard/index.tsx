@@ -1,7 +1,9 @@
 'use client';
-import { Comics } from '@/types/comics';
-import Image from 'next/image';
 import React from 'react';
+import Image from 'next/image';
+import { Comics } from '@/types/comics';
+import { useDispatch } from 'react-redux';
+import { addItem } from '@/store/features/cart/cartSlice';
 import { useRouter } from 'next/navigation';
 import { CiShoppingCart } from 'react-icons/ci';
 
@@ -9,15 +11,18 @@ interface ICardProps {
     comics: Comics;
 }
 
-export default function ComicsCard({
-    comics,
-}: Readonly<ICardProps>) {
+export default function ComicsCard({ comics }: Readonly<ICardProps>) {
     const router = useRouter();
+    const dispatch = useDispatch();
 
-    function redirectVitrine(id: number){
+    function redirectVitrine(id: number) {
         router.push(`/home/${id}`);
     }
-    
+
+    function addCartItem(comics: Comics) {
+        dispatch(addItem({ comics, amount: 1 }));
+    }
+
     return (
         <div className="container flex justify-center items-center">
             <div className="card container border rounded shadow p-4 bg-white w-[220px] h-[450px]">
@@ -64,9 +69,10 @@ export default function ComicsCard({
                     <button
                         className="bg-primary flex items-center justify-between w-full font-medium gap-3 text-white p-2 border rounded shadow "
                         type="button"
+                        onClick={() => addCartItem(comics)}
                     >
                         <div className="flex justify-center items-center">
-                            <CiShoppingCart className="w-10"/>
+                            <CiShoppingCart className="w-10" />
                             <span>Adicionar </span>
                         </div>
                     </button>
