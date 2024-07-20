@@ -3,6 +3,7 @@ import { Roboto } from 'next/font/google';
 import './globals.scss';
 import StoreProvider from './StoreProvider';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
+import ClientControl from '@/components/ClientControl';
 
 const roboto = Roboto({
     weight: ['300', '400', '500', '700'],
@@ -21,6 +22,7 @@ export default async function RootLayout({
                     <body className={roboto.className}>
                         <div className="relative">
                             <div className="min-h-screen w-full">
+                                <ClientControl />
                                 <Header />
                                 {/* <Banner bannerImage={BannerImage} /> */}
                                 <div className="bg-white md:bg-body">

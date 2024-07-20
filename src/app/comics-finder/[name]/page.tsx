@@ -1,7 +1,7 @@
 'use client';
-import getComicsPage from '@/serverActions/hqs/getComicsPage';
+import getComicsPage, { FilterHqs } from '@/serverActions/hqs/getComicsPage';
 import React, { useCallback, useEffect, useState } from 'react';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import TypeFinder from '@/enums/TypeFinder';
 import { Comics } from '@/types/comics';
 import ComicsPanel from '@/components/ComicsPanel';
@@ -17,19 +17,30 @@ interface IComicsFinder {
 }
 
 export default function Home({ params }: IComicsFinder) {
-    const name = params.name;
+    const router = useRouter();
+    const name = decodeURIComponent(params.name ?? '');
 
     const [comics, setComics] = useState<Comics[]>([]);
     const [collections, setCollections] = useState<Collection[]>([]);
     const [pagesLimit, setPagesLimit] = useState<number>(0);
     const [skip, setSkip] = useState<number>(0);
+    const [filterHqs, setFilterHqs] = useState<FilterHqs[]>([
+        {
+            typeFinder: TypeFinder.NAME,
+            keyword: [name],
+        },
+    ]);
 
     const handleGetComics = useCallback(() => {
         getComicsPage({
             take: 10,
             skip: skip + 1,
-            typeFinder: TypeFinder.NAME,
-            keyword: [],
+            filterHqs: [
+                {
+                    typeFinder: TypeFinder.NAME,
+                    keyword: [],
+                },
+            ],
         }).then((pagesComics) => {
             setComics((prevProducts) => [
                 ...prevProducts,
@@ -45,8 +56,12 @@ export default function Home({ params }: IComicsFinder) {
             getComicsPage({
                 take: 10,
                 skip: skip,
-                typeFinder: TypeFinder.NAME,
-                keyword: [name],
+                filterHqs: [
+                    {
+                        typeFinder: TypeFinder.NAME,
+                        keyword: [name],
+                    },
+                ],
             }).then((pagesComics) => {
                 setComics(pagesComics.comics);
                 setPagesLimit(pagesComics.pages);
@@ -56,25 +71,47 @@ export default function Home({ params }: IComicsFinder) {
                 setCollections(collections),
             );
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     function hendleSearchName(searchTerm: string) {
-        handleSearch(TypeFinder.NAME, [searchTerm]);
-        getCollectionsByComicsName(searchTerm).then((collections) =>
-            setCollections(collections),
-        );
+        router.push(`/comics-finder/${searchTerm}`);
     }
 
-    function handleSearch(type: TypeFinder, keyword: string[]) {
+    function handleSearch(typeFinder: TypeFinder, keywords: string[]) {
+        console.log(keywords);
+        const newFilterHqs = [...filterHqs];
+
+        const newFilterCollection: FilterHqs = {
+            keyword: keywords,
+            typeFinder: TypeFinder.COLLECTION,
+        };
+
+        let filterCollection = newFilterHqs.find(
+            (filter) => filter.typeFinder === typeFinder,
+        );
+
+        if (!filterCollection) {
+            newFilterHqs.push(newFilterCollection);
+        } else {
+            filterCollection.keyword = newFilterCollection.keyword;
+            filterCollection.typeFinder = newFilterCollection.typeFinder;
+        }
+
+        console.log({ filterCollection, newFilterCollection });
+
+        handleSearchEvent(newFilterHqs);
+    }
+
+    async function handleSearchEvent(filterHqs: FilterHqs[]) {
         getComicsPage({
             take: 10,
-            skip: 0,
-            typeFinder: type,
-            keyword: keyword,
+            skip: skip,
+            filterHqs: filterHqs,
         }).then((pagesComics) => {
-            setComics(() => pagesComics.comics);
-            setSkip(() => 1);
+            setComics(pagesComics.comics);
+            setPagesLimit(pagesComics.pages);
+            setFilterHqs(filterHqs);
         });
     }
 
@@ -82,9 +119,12 @@ export default function Home({ params }: IComicsFinder) {
 
     return (
         <div>
-            <SearchBarBanner handleSearch={hendleSearchName} comicsName={name} />
+            <SearchBarBanner
+                handleSearch={hendleSearchName}
+                comicsName={name}
+            />
             <div className="flex justify-center w-full md:h-83 md:bg-gray-50">
-                <div className="flex justify-center w-full md:h-[1071px] h-full md:px-10 md:pt-8 gap-6">
+                <div className="flex w-full md:min-h-[1071px] h-full md:px-10 md:pt-8 gap-6">
                     <div>
                         <FilterOptions
                             collections={collections}

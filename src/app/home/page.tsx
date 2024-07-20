@@ -16,8 +16,12 @@ export default function Home() {
         getComicsPage({
             take: 10,
             skip: skip + 1,
-            typeFinder: TypeFinder.NAME,
-            keyword: [],
+            filterHqs: [
+                {
+                    typeFinder: TypeFinder.NAME,
+                    keyword: [],
+                },
+            ],
         }).then((pagesComics) => {
             setComics((prevProducts) => [
                 ...prevProducts,
@@ -31,8 +35,12 @@ export default function Home() {
         getComicsPage({
             take: 10,
             skip: skip,
-            typeFinder: TypeFinder.NAME,
-            keyword: [],
+            filterHqs: [
+                {
+                    typeFinder: TypeFinder.NAME,
+                    keyword: [],
+                },
+            ],
         }).then((pagesComics) => {
             setComics(pagesComics.comics);
             setPagesLimit(pagesComics.pages);
@@ -43,8 +51,8 @@ export default function Home() {
     return (
         <div>
             <SearchBarBanner />
-            <div className="flex justify-center w-full md:h-83 md:bg-gray-50">
-                <div className="flex w-full md:h-[1071px] h-full md:px-10 md:pt-8 gap-6">
+            <div className="flex justify-center w-full  md:bg-gray-50">
+                <div className="flex w-full md:min-h-[1071px] h-full md:px-10 md:pt-8 gap-6">
                     <ComicsPanel comics={comics} />
                 </div>
             </div>
