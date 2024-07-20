@@ -35,7 +35,20 @@ export default function ComicsCard({ comics }: Readonly<ICardProps>) {
                         position: 'relative',
                     }}
                 >
-                    <Image
+                    {/* <Image
+                        className="w-full h-full h-[100px]"
+                        style={{
+                            objectFit: 'cover',
+                            width: '100%',
+                            height: '100%',
+                        }}
+                        src={comics.image.url}
+                        alt={comics.name}
+                        loading="lazy"
+                        width={170}
+                        height={400}
+                    /> */}
+                    <img
                         className="w-full h-full h-[100px]"
                         style={{
                             objectFit: 'cover',
