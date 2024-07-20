@@ -10,7 +10,6 @@ interface ICardShowCase {
 export default function CardShowCase({ comics }: ICardShowCase) {
     return (
         <div
-            className="mb-4"
             style={{
                 width: '390px',
                 height: '562px',
@@ -18,7 +17,7 @@ export default function CardShowCase({ comics }: ICardShowCase) {
             }}
         >
             <Image
-                className="w-full h-full h-[100px]"
+                className="w-full h-full "
                 style={{
                     objectFit: 'cover',
                     width: '100%',
@@ -29,7 +28,7 @@ export default function CardShowCase({ comics }: ICardShowCase) {
                 quality={100}
                 loading="lazy"
                 width={170}
-                height={400}
+                height={100}
             />
             {/* <img
                 className="w-full h-full h-[100px]"

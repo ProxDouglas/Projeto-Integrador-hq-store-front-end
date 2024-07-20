@@ -11,7 +11,7 @@ export default function LoginButton() {
     if (!user)
         return (
             <button disabled={isLoading}>
-                <a href="api/auth/login">
+                <a href="/api/auth/login">
                     <FaUser size={24} />
                 </a>
             </button>
@@ -20,7 +20,7 @@ export default function LoginButton() {
     if (user.picture)
         return (
             <button>
-                <a href="api/auth/logout">
+                <a href="/api/auth/logout">
                     {/* <Image
                         className="rounded-full h-[40px] w-[40px]"
                         src={user.picture}
@@ -41,7 +41,7 @@ export default function LoginButton() {
 
     return (
         <button>
-            <a href="api/auth/logout">
+            <a href="/api/auth/logout">
                 <Image
                     className="rounded-full h-[40px] w-[40px]"
                     src={ProfileUnknown}
